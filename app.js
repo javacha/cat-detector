@@ -81,6 +81,8 @@ cameraSelect.addEventListener(
 
     await loadCameras();
 
+    await loadVersionInfo();
+
 })();
 
 
@@ -205,6 +207,9 @@ async function loadCameras() {
             devices.filter(
                 d => d.kind === "videoinput"
             );
+
+        cameraCount =
+        cameras.length;
 
         cameraSelect.innerHTML = "";
 
@@ -602,5 +607,55 @@ console.log(
 );
 
 
+let cameraCount = 0;
+
+async function loadVersionInfo() {
+
+    try {
+
+        const response =
+            await fetch(
+                `version.json?t=${Date.now()}`
+            );
+
+        const info =
+            await response.json();
+
+        let swStatus =
+            "No";
+
+        if (
+            "serviceWorker"
+            in navigator
+        ) {
+
+            const reg =
+                await navigator
+                    .serviceWorker
+                    .getRegistration();
+
+            swStatus =
+                reg
+                ? "Sí"
+                : "No";
+        }
+
+        document
+            .getElementById(
+                "debugPanel"
+            )
+            .innerHTML = `
+                <b>Versión:</b> ${info.version}<br>
+                <b>Build:</b> ${info.buildDate}<br>
+                <b>SW:</b> ${swStatus}<br>
+                <b>Cámaras:</b> ${cameraCount}
+                <b>isSecureContext:</b> ${window.isSecureContext}
+            `;
+
+    } catch (err) {
+
+        console.error(err);
+    }
+}
 
 }
