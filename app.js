@@ -33,6 +33,14 @@ let previousROI = null;
 let lastDetection = 0;
 let detectionTimer = null;
 
+
+const cameraSelect =
+    document.getElementById(
+        "cameraSelect"
+    );
+
+let currentStream = null;
+
 //
 // Inicialización
 //
@@ -46,9 +54,34 @@ thresholdInput.value;
 );
 
 
+cameraSelect.addEventListener(
+    "change",
+    async () => {
+
+        const selected =
+            cameraSelect.value;
+
+        localStorage.setItem(
+            "selectedCamera",
+            selected
+        );
+
+        await startCamera(
+            selected
+        );
+    }
+);
+
+
 //alert("antes de startCamera");
 
-startCamera();
+(async () => {
+
+    await startCamera();
+
+    await loadCameras();
+
+})();
 
 
 //alert("depues de startCamera");
@@ -56,38 +89,59 @@ startCamera();
 // Cámara
 //
 
-async function startCamera() {
+async function startCamera(
+    deviceId = null
+) {
 
+    try {
 
-try {
+        if (currentStream) {
 
-    const stream =
-        await navigator.mediaDevices.getUserMedia({
-            video: true,
+            currentStream
+                .getTracks()
+                .forEach(
+                    track => track.stop()
+                );
+        }
+
+        const constraints = {
+
+            video: deviceId
+                ? {
+                    deviceId: {
+                        exact: deviceId
+                    }
+                }
+                : true,
+
             audio: false
-        });
+        };
 
+        const stream =
+            await navigator
+                .mediaDevices
+                .getUserMedia(
+                    constraints
+                );
 
-    video.srcObject = stream;
+        currentStream =
+            stream;
 
-    statusDiv.innerText =
-        "Cámara iniciada";
+        video.srcObject =
+            stream;
 
-}
-catch (err) {
+        statusDiv.innerText =
+            "Cámara iniciada";
 
-    console.error(err);
+    } catch (err) {
 
-    alert(
-        err.name +
-        "\n" +
-        err.message
-    );
+        console.error(err);
 
-    statusDiv.innerText =
-        err.name;
-}
-
+        statusDiv.innerText =
+            err.name +
+            ": " +
+            err.message;
+    }
 }
 //
 // Botones
@@ -137,6 +191,65 @@ if (detectionTimer)
     );
 
 
+}
+
+async function loadCameras() {
+
+    try {
+
+        const devices =
+            await navigator.mediaDevices
+                .enumerateDevices();
+
+        const cameras =
+            devices.filter(
+                d => d.kind === "videoinput"
+            );
+
+        cameraSelect.innerHTML = "";
+
+        cameras.forEach(
+            (camera, index) => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    camera.deviceId;
+
+                option.textContent =
+                    camera.label ||
+                    `Cámara ${index + 1}`;
+
+                cameraSelect.appendChild(
+                    option
+                );
+            }
+        );
+
+        //
+        // Restaurar última cámara usada
+        //
+        const savedCamera =
+            localStorage.getItem(
+                "selectedCamera"
+            );
+
+        if (savedCamera) {
+
+            cameraSelect.value =
+                savedCamera;
+        }
+
+    } catch (err) {
+
+        console.error(
+            "Error cargando cámaras",
+            err
+        );
+    }
 }
 
 //
