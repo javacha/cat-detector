@@ -116,6 +116,25 @@
       font-size: 24px;
   }
   
+
+  #debugPanel {
+
+    margin-top: 20px;
+
+    padding: 10px;
+
+    font-size: 12px;
+
+    text-align: left;
+
+    background: #f0f0f0;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    word-break: break-word;
+}
   
   }
   
