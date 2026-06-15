@@ -1,11 +1,11 @@
 ####
 
 para verlo ONLINE
-https://kvdb.io/EeGWrqBYvXV43tqhYe2Rpu/
+https://kvdb.io/{apikey}/
 
 
 
-curl -d '100' https://kvdb.io/EeGWrqBYvXV43tqhYe2Rpu/events
+curl -d '100' https://kvdb.io/{apikey}/events
 
 
 
@@ -20,7 +20,7 @@ curl -d '100' https://kvdb.io/${apikey}/hits
 POST https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${apikey}/name/javacha 
 
 {
-    "apikey": "EeGWrqBYvXV43tqhYe2Rpu"
+    "apikey": "${kvdb.apikey}"
 }
 
 

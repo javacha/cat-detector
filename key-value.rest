@@ -5,7 +5,7 @@
 POST https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${apikey}/name/javacha HTTP/1.1
 
 {
-    "apikey": "slv80sgc"
+    "apikey": "${keyvalue.immanuel.apikey}"
 }
 
 
@@ -17,7 +17,7 @@ POST https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${apikey}/name/javacha 
 GET https://keyvalue.immanuel.co/api/KeyVal/GetValue/${apikey}/name HTTP/1.1
 
 {
-    "apikey": "slv80sgc"
+    "apikey": "${keyvalue.immanuel.apikey}"
 }
 
 #####
@@ -28,7 +28,7 @@ GET https://keyvalue.immanuel.co/api/KeyVal/GetValue/${apikey}/name HTTP/1.1
 GET https://keyvalue.immanuel.co/api/KeyVal/GetValue/${apikey} HTTP/1.1
 
 {
-    "apikey": "slv80sgc"
+    "apikey": "${keyvalue.immanuel.apikey}"
 }
 
 #####
