@@ -1,4 +1,4 @@
-const CACHE_NAME = "cat-detector-v1";
+const CACHE_NAME = "cat-detector-v2";
 
 const FILES = [
   "./",
@@ -6,7 +6,8 @@ const FILES = [
   "./historial.html",
   "./style.css",
   "./app.js",
-  "./manifest.json"
+  "./manifest.json",
+  "./version.json"
 ];
 
 self.addEventListener("install", event => {
