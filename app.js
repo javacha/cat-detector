@@ -1,5 +1,12 @@
 // app.js
 
+
+
+//alert("app.js cargando...");
+
+
+
+
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -38,8 +45,13 @@ thresholdInput.value;
 }
 );
 
+
+//alert("antes de startCamera");
+
 startCamera();
 
+
+//alert("depues de startCamera");
 //
 // Cámara
 //
@@ -51,28 +63,32 @@ try {
 
     const stream =
         await navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: "environment"
-            },
+            video: true,
             audio: false
         });
+
 
     video.srcObject = stream;
 
     statusDiv.innerText =
         "Cámara iniciada";
 
-} catch (err) {
+}
+catch (err) {
 
     console.error(err);
 
+    alert(
+        err.name +
+        "\n" +
+        err.message
+    );
+
     statusDiv.innerText =
-        "No se pudo acceder a la cámara";
+        err.name;
 }
 
-
 }
-
 //
 // Botones
 //
@@ -471,6 +487,7 @@ statusDiv.innerText =
 console.log(
     event
 );
+
 
 
 }
