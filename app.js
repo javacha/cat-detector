@@ -606,6 +606,8 @@ console.log(
     event
 );
 
+}
+
 
 let cameraCount = 0;
 
@@ -656,6 +658,4 @@ async function loadVersionInfo() {
 
         console.error(err);
     }
-}
-
 }
