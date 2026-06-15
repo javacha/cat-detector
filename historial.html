@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>
+    Historial de Eventos
+</title>
+
+<link
+    rel="stylesheet"
+    href="style.css">
+
+
+</head>
+
+<body>
+
+<h1>
+    Historial de Eventos
+</h1>
+
+<div class="history-container">
+
+
+<p>
+    Eventos almacenados localmente
+</p>
+
+<button
+    id="reloadBtn">
+    Actualizar
+</button>
+
+<button
+    id="clearBtn">
+    Borrar historial
+</button>
+
+<button
+    onclick="window.location='index.html'">
+    Volver
+</button>
+
+<br><br>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Movimiento</th>
+        </tr>
+
+    </thead>
+
+    <tbody id="eventsTable">
+
+    </tbody>
+
+</table>
+
+
+</div>
+
+<script>
+
+document
+.getElementById(
+    "reloadBtn"
+)
+.addEventListener(
+    "click",
+    loadEvents
+);
+
+document
+.getElementById(
+    "clearBtn"
+)
+.addEventListener(
+    "click",
+    clearEvents
+);
+
+loadEvents();
+
+function loadEvents() {
+
+    const tbody =
+        document
+        .getElementById(
+            "eventsTable"
+        );
+
+    tbody.innerHTML = "";
+
+    const events =
+        JSON.parse(
+            localStorage.getItem(
+                "catDetectorEvents"
+            ) || "[]"
+        );
+
+    events.sort(
+        (a, b) =>
+            new Date(
+                b.timestamp
+            ) -
+            new Date(
+                a.timestamp
+            )
+    );
+
+    if (
+        events.length === 0
+    ) {
+
+        const tr =
+            document
+            .createElement(
+                "tr"
+            );
+
+        tr.innerHTML = `
+            <td colspan="4">
+                No hay eventos registrados
+            </td>
+        `;
+
+        tbody.appendChild(
+            tr
+        );
+
+        return;
+    }
+
+    let index = 1;
+
+    for (
+        const event
+        of events
+    ) {
+
+        const tr =
+            document
+            .createElement(
+                "tr"
+            );
+
+        tr.innerHTML = `
+            <td>${index}</td>
+            <td>${event.fecha}</td>
+            <td>${event.hora}</td>
+            <td>${event.movement}</td>
+        `;
+
+        tbody.appendChild(
+            tr
+        );
+
+        index++;
+    }
+}
+
+function clearEvents() {
+
+    const confirmDelete =
+        confirm(
+            "¿Borrar todos los eventos?"
+        );
+
+    if (
+        !confirmDelete
+    ) {
+        return;
+    }
+
+    localStorage.removeItem(
+        "catDetectorEvents"
+    );
+
+    loadEvents();
+}
+
+</script>
+
+</body>
+</html>

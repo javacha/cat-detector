@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Movimiento para Gatos</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+
+<h1>Detector de Movimiento</h1>
+
+<div class="video-container">
+
+
+<video
+    id="video"
+    autoplay
+    playsinline
+    muted>
+</video>
+
+<div id="roi"></div>
+
+
+</div>
+
+<div class="panel">
+
+
+<label>
+    Sensibilidad
+</label>
+
+<input
+    id="threshold"
+    type="range"
+    min="5"
+    max="100"
+    value="20">
+
+<span id="thresholdValue">
+    20
+</span>
+
+<br><br>
+
+<label>
+    Cooldown (segundos)
+</label>
+
+<input
+    id="cooldown"
+    type="number"
+    min="1"
+    max="60"
+    value="5">
+
+<br><br>
+
+<button id="startBtn">
+    Iniciar monitoreo
+</button>
+
+<button id="stopBtn">
+    Detener
+</button>
+
+<button onclick="window.location='historial.html'">
+    Ver historial
+</button>
+
+
+</div>
+
+<hr>
+
+<div class="status">
+
+
+<h3>Movimiento detectado</h3>
+
+<div id="movementValue">
+    0
+</div>
+
+<h3>Estado</h3>
+
+<div id="status">
+    Esperando inicio...
+</div>
+
+
+</div>
+
+<canvas
+ id="canvas"
+ style="display:none;"> </canvas>
+
+<script src="app.js"></script>
+
+</body>
+</html>
